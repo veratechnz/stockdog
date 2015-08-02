@@ -9,7 +9,7 @@
 
 
 angular.module('stockDogApp')
-  .directive('stkWatchlistPanel', function ($location, $modal, WatchlistService) {
+  .directive('stkWatchlistPanel', function ($location, $modal, $routeParams, WatchlistService) {
     return {
       templateUrl: 'views/templates/watchlist-panel.html',
       restrict: 'E',
@@ -17,6 +17,7 @@ angular.module('stockDogApp')
       link: function ($scope) {
       	//[2] Initialize variables
       	$scope.watchlist = {};
+      	$scope.currentList = $routeParams.listId;
       	var addListModal = $modal({
       		scope: $scope,
       		template: 'views/templates/addlist-modal.html',
@@ -42,6 +43,10 @@ angular.module('stockDogApp')
       	$scope.deleteList = function (list) {
       		WatchlistService.remove(list);
       		$location.path('/');
+      	};
+
+      	$scope.gotoList = function (listId) {
+      		$location.path('watchlist/' + listId);
       	};
       }
     };
